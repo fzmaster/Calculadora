@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 
 import java.awt.Dimension;
@@ -20,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.awt.color.*;
 
 @SuppressWarnings("serial")
 public class CalculadoraGui extends JFrame implements KeyListener, ActionListener{
@@ -91,6 +92,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		panel.setLayout(null);
 		
 		//menuzin
+		// TODO: CRIAR UM MENU LEGAL NO FINAL
 		menu = new JMenu();
 		
 		
@@ -99,6 +101,9 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		textField_Texto.setBounds(0, 0, 204, 30);
 		panel.add(textField_Texto);
 		textField_Texto.setColumns(10);
+		textField_Texto.setEditable(false);
+		textField_Texto.setBackground(java.awt.Color.WHITE);
+		
 		
 		panel_Excluir = new JPanel();
 		panel_Excluir.setBounds(0, 30, 204, 30);
@@ -186,6 +191,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	}
 	
 	public void tratamentoTeclado(String key) {
+
 		switch (key) {
 		case "0":
 		case "1":
@@ -196,20 +202,26 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "6":
 		case "7":
 		case "8":
-		case "9": System.out.println("Dígito: " + key); break;
+		case "9": textField_Texto.setText(textField_Texto.getText() + key); System.out.println("Dígito: " + key); break;
 		case ".":
 		case "+":
 		case "-":
-		case "/":
-		case "=": System.out.println("Oper: " + key); break;
+		case "*":
+		case "/": textField_Texto.setText(textField_Texto.getText() + key); break;
+		case "=": resposta(); System.out.println("Executar Resposta"); break;
 		default: break;
 		}
+	}
+	
+	private void resposta() {
+		// TODO: CRIAR O ANALISADOR LEXICO, SINTATICO E SEMANTICO
+		System.out.println("EXECUTAR ANALISE E EXECUTAR OPERACAO");
+		return;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -222,6 +234,5 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	public void keyTyped(KeyEvent e) {
 		String key = String.valueOf(e.getKeyChar());
 		tratamentoTeclado(key);
-		
 	}
 }

@@ -117,6 +117,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Excluir = new JButton("C");
 		button_Excluir.setBounds(115, 0, 89, 30);
 		panel_Excluir.add(button_Excluir);
+		button_Excluir.addActionListener(this);
 		
 		panel_Teclado = new JPanel();
 		panel_Teclado.setBounds(0, 60, 204, 202);
@@ -211,7 +212,6 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 			if(this.qualUsar == 1) {
 				//coloca no Valor1
 				this.Valor1 = this.Valor1+key;
-				System.out.println("Agora temos: " + this.Valor1);
 			} else {
 				//coloca no Valor2
 				this.Valor2 = this.Valor2+key;
@@ -241,7 +241,6 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "/": {
 			this.qualUsar = 2;
 			this.qualOperador = "/";
-			textField_Texto.setText(textField_Texto.getText() + key);
 			break;
 		}
 		case "=": {
@@ -254,11 +253,24 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		}
 	}
 	
+	private void imprimeStatus() {
+		System.out.println("V1:      "+this.Valor1);
+		System.out.println("V2 :     "+this.Valor2);
+		System.out.println("qualop : "+this.qualOperador);
+		System.out.println("qualusar:"+this.qualUsar);
+		//System.out.println("V1: "+this.Valor1);
+		//System.out.println("V1: "+this.Valor1);
+		//System.out.println("V1: "+this.Valor1);
+	}
+	
 	private void resetaCalculadora() {
-		this.Valor1 = null;
-		this.Valor2 = null;
+		this.Valor1 = "";
+		this.Valor2 = "";
 		this.qualOperador = "";
 		this.Resultado = "";
+		this.qualUsar = 1;
+		textField_Texto.setText("");
+		imprimeStatus();
 	}
 
 	private void resposta() {
@@ -270,21 +282,29 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		switch (this.qualOperador) {
 		case "+":
 			resultadoFinal = v1 + v2;
-			System.out.println("v1 = " + v1);
-			System.out.println("v2 = " + v2);
-			System.out.println("resFinal" + resultadoFinal);
-			textField_Texto.setText(resultadoFinal.toString());
+			break;
+		case "-":
+			resultadoFinal = v1 - v2;
+			break;
+		case "/":
+			resultadoFinal = v1 / v2;
+			break;
+		case "*":
+			resultadoFinal = v1 * v2;
 			break;
 		default:
 			break;
 		}
+		
+		//exibe texto no display
+		textField_Texto.setText(resultadoFinal.toString());
 		
 		this.Valor1 = resultadoFinal.toString();
 		this.Valor2 = "";
 		this.qualOperador = "";
 		this.qualUsar = 2;
 		textField_Texto.setText(Valor1);
-		
+		imprimeStatus();
 		return;
 	}
 

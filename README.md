@@ -10,3 +10,9 @@ Funções implementadas por completo:
 - Multiplicação
 - Divisão
 
+Funções avançadas implementadas:
+- Negação
+- Potenciação
+- Radiciação
+- Logarítmo
+

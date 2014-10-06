@@ -1,27 +1,21 @@
 import java.awt.EventQueue;
-
-
 import javax.swing.JFrame;
-
 import java.awt.Dimension;
-
 import javax.swing.JScrollPane;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.color.*;
+
+// Código fonte disponível no endereço: https://github.com/fzmaster/Calculadora
+
 
 @SuppressWarnings("serial")
 public class CalculadoraGui extends JFrame implements KeyListener, ActionListener{
@@ -85,8 +79,8 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private void initialize() {
 		frmCalculadora = new JFrame();
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setSize(new Dimension(220, 300));
-		frmCalculadora.setBounds(0, 0, 220, 300);
+		frmCalculadora.setSize(new Dimension(300, 300));
+		frmCalculadora.setBounds(0, 0, 300, 300);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.setLocationRelativeTo(null);
 		frmCalculadora.setResizable(false);
@@ -208,7 +202,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "7":
 		case "8":
 		case "9": {
-			textField_Texto.setText(textField_Texto.getText() + key); System.out.println("Dígito: " + key);
+			textField_Texto.setText(textField_Texto.getText() + key);
 			if(this.qualUsar == 1) {
 				//coloca no Valor1
 				this.Valor1 = this.Valor1+key;
@@ -220,7 +214,16 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 			break;
 		}
 		case ".": {
-			// TODO:implementar o ponto
+			textField_Texto.setText(textField_Texto.getText() + key);
+			// TODO: Implementar a funcionalidade de bloquear o uso de pontos sequenciais
+			if(this.qualUsar == 1) {
+				//coloca no Valor1
+				this.Valor1 = this.Valor1+key;
+			} else {
+				//coloca no Valor2
+				this.Valor2 = this.Valor2+key;
+				
+			}
 			break;
 		}
 		case "+": {

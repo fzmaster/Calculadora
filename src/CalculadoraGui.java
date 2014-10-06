@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.color.*;
 
-// Código fonte disponível no endereço: https://github.com/fzmaster/Calculadora
+// CÃ³digo fonte disponÃ­vel no endereÃ§o: https://github.com/fzmaster/Calculadora
 
 
 @SuppressWarnings("serial")
@@ -30,18 +30,22 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private JButton button_8;
 	private JButton button_9;
 	private JButton button_Div;
+	private JButton button_Neg;
 	private JButton button_4;
 	private JButton button_5;
 	private JButton button_6;
 	private JButton button_Mult;
+	private JButton button_Pot;
 	private JButton button_1;
 	private JButton button_2;
 	private JButton button_3;
 	private JButton button_Menos;
+	private JButton button_Rad;
 	private JButton button_Ponto;
 	private JButton button_0;
 	private JButton button_Igual;
 	private JButton button_Mais;
+	private JButton button_Log;
 	
 	private String Valor1 = "", Valor2 = "", Resultado = "";
 	private int qualUsar = 1;
@@ -114,7 +118,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Excluir.addActionListener(this);
 		
 		panel_Teclado = new JPanel();
-		panel_Teclado.setBounds(0, 60, 204, 202);
+		panel_Teclado.setBounds(0, 60, 254, 202);
 		panel.add(panel_Teclado);
 		panel_Teclado.setLayout(new GridLayout(4, 4, 0, 0));
 		
@@ -134,6 +138,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		panel_Teclado.add(button_Div);
 		button_Div.addActionListener(this);
 		
+		button_Neg = new JButton("N");
+		panel_Teclado.add(button_Neg);
+		button_Neg.addActionListener(this);
+		
 		button_4 = new JButton("4");
 		panel_Teclado.add(button_4);
 		button_4.addActionListener(this);
@@ -149,6 +157,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Mult = new JButton("*");
 		panel_Teclado.add(button_Mult);
 		button_Mult.addActionListener(this);
+		
+		button_Pot = new JButton("^");
+		panel_Teclado.add(button_Pot);
+		button_Pot.addActionListener(this);
 		
 		button_1 = new JButton("1");
 		panel_Teclado.add(button_1);
@@ -181,6 +193,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Mais = new JButton("+");
 		panel_Teclado.add(button_Mais);
 		button_Mais.addActionListener(this);
+		
+		button_Rad = new JButton("âˆš");
+		panel_Teclado.add(button_Rad);
+		button_Rad.addActionListener(this);
 	}
 
 	@Override
@@ -229,21 +245,25 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "+": {
 			this.qualUsar = 2;
 			this.qualOperador = "+";
+			textField_Texto.setText("");
 			break;
 		}
 		case "-": {
 			this.qualUsar = 2;
 			this.qualOperador = "-";
+			textField_Texto.setText("");
 			break;
 		}
 		case "*": {
 			this.qualUsar = 2;
 			this.qualOperador = "*";
+			textField_Texto.setText("");
 			break;
 		}
 		case "/": {
 			this.qualUsar = 2;
 			this.qualOperador = "/";
+			textField_Texto.setText("");
 			break;
 		}
 		case "=": {

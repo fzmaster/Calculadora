@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import javax.naming.LimitExceededException;
 import javax.swing.JFrame;
 
 import java.awt.Dimension;
@@ -312,6 +313,15 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 					textField_Texto.setText(this.Valor1);	
 				}
 			}
+			if(this.qualUsar == 2) {
+				//coloca no Valor2
+				if(this.Valor2.equals("")) {
+					JOptionPane.showMessageDialog(null, "Valor está vazio. Digite um número para negar!", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					this.Valor2 = "-" + this.Valor2;
+					textField_Texto.setText(this.Valor2);	
+				}
+			}
 			break;
 		}
 		
@@ -355,7 +365,8 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 			break;
 		case "/":
 			if(this.Valor2.equals("0")) {
-				JOptionPane.showMessageDialog(null, "Divisão por Zero Proibida. Use 0.0", "Erro!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Divisão por Zero Proibida. Use 0.0. Erro! Calculadora reiniciada", "ERRO", JOptionPane.ERROR_MESSAGE);
+				resetaCalculadora();
 			} else {
 				resultadoFinal = v1 / v2;				
 			}	
@@ -367,27 +378,41 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 			resultadoFinal = (Double) Math.pow(v1, v2);
 			break;
 		case "R":
-			resultadoFinal = (Double) Math.pow(v1, 1.0/v2);
+			if(v1 < 0 && v2%2 == 0) {
+				JOptionPane.showMessageDialog(null, "Raiz de número negativo com índice par. Operação ilegal! Calculadora reiniciada.", "ERRO", JOptionPane.ERROR_MESSAGE);
+				resetaCalculadora();
+			} else {
+				resultadoFinal = (Double) Math.pow(v1, 1/v2);
+			}
 			break;
 		case "L":
-			resultadoFinal = (Double) Math.log(v1)/Math.log(v2);
+			if(v2 <= 0 || v2 == 1 || v1 <= 0) {
+				JOptionPane.showMessageDialog(null, "Segundo valor eh negativo ou igual a 1. Operação ilegal! Calculadora reiniciada.", "ERRO", JOptionPane.ERROR_MESSAGE);
+				resetaCalculadora();
+			} else {
+				resultadoFinal = (Double) Math.log(v1)/Math.log(v2);
+			}
+			
 			break;
 		default:
 			break;
 		}
 		
 		//exibe texto no display
-		textField_Texto.setText(resultadoFinal.toString());
-		
-		this.Valor1 = resultadoFinal.toString();
-		if(this.Valor1.equals("Infinity")) {
-			this.Valor1 = "";
+		if(resultadoFinal != null) {
+			textField_Texto.setText(resultadoFinal.toString());
+			
+			this.Valor1 = resultadoFinal.toString();
+			if(this.Valor1.equals("Infinity")) {
+				this.Valor1 = "";
+			}
+			this.Valor2 = "";
+			this.qualOperador = "";
+			this.qualUsar = 2;
+			textField_Texto.setText(Valor1);
+			imprimeStatus();
 		}
-		this.Valor2 = "";
-		this.qualOperador = "";
-		this.qualUsar = 2;
-		textField_Texto.setText(Valor1);
-		imprimeStatus();
+		
 		return;
 	}
 

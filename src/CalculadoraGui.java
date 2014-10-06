@@ -1,25 +1,20 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-
 import java.awt.Dimension;
-
 import javax.swing.JScrollPane;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.color.*;
+
+// Código fonte disponível no endereço: https://github.com/fzmaster/Calculadora
 
 
 @SuppressWarnings("serial")
@@ -47,6 +42,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private JButton button_0;
 	private JButton button_Igual;
 	private JButton button_Mais;
+	
+	private String Valor1 = "", Valor2 = "", Resultado = "";
+	private int qualUsar = 1;
+	private String qualOperador = "";
 	
 	private JMenu menu;
 	
@@ -80,8 +79,8 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private void initialize() {
 		frmCalculadora = new JFrame();
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setSize(new Dimension(220, 300));
-		frmCalculadora.setBounds(0, 0, 220, 300);
+		frmCalculadora.setSize(new Dimension(300, 300));
+		frmCalculadora.setBounds(0, 0, 300, 300);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.setLocationRelativeTo(null);
 		frmCalculadora.setResizable(false);
@@ -91,6 +90,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		panel.setLayout(null);
 		
 		//menuzin
+		// TODO: CRIAR UM MENU LEGAL NO FINAL
 		menu = new JMenu();
 		
 		
@@ -99,15 +99,19 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		textField_Texto.setBounds(0, 0, 204, 30);
 		panel.add(textField_Texto);
 		textField_Texto.setColumns(10);
+		textField_Texto.setEditable(false);
+		textField_Texto.setBackground(java.awt.Color.WHITE);
+		
 		
 		panel_Excluir = new JPanel();
 		panel_Excluir.setBounds(0, 30, 204, 30);
 		panel.add(panel_Excluir);
 		panel_Excluir.setLayout(null);
 		
-		button_Excluir = new JButton("Excluir");
+		button_Excluir = new JButton("C");
 		button_Excluir.setBounds(115, 0, 89, 30);
 		panel_Excluir.add(button_Excluir);
+		button_Excluir.addActionListener(this);
 		
 		panel_Teclado = new JPanel();
 		panel_Teclado.setBounds(0, 60, 204, 202);
@@ -186,6 +190,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	}
 	
 	public void tratamentoTeclado(String key) {
+
 		switch (key) {
 		case "0":
 		case "1":
@@ -196,32 +201,125 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "6":
 		case "7":
 		case "8":
-		case "9": System.out.println("Dígito: " + key); break;
-		case ".":
-		case "+":
-		case "-":
-		case "/":
-		case "=": System.out.println("Oper: " + key); break;
+		case "9": {
+			textField_Texto.setText(textField_Texto.getText() + key);
+			if(this.qualUsar == 1) {
+				//coloca no Valor1
+				this.Valor1 = this.Valor1+key;
+			} else {
+				//coloca no Valor2
+				this.Valor2 = this.Valor2+key;
+				
+			}
+			break;
+		}
+		case ".": {
+			textField_Texto.setText(textField_Texto.getText() + key);
+			// TODO: Implementar a funcionalidade de bloquear o uso de pontos sequenciais
+			if(this.qualUsar == 1) {
+				//coloca no Valor1
+				this.Valor1 = this.Valor1+key;
+			} else {
+				//coloca no Valor2
+				this.Valor2 = this.Valor2+key;
+				
+			}
+			break;
+		}
+		case "+": {
+			this.qualUsar = 2;
+			this.qualOperador = "+";
+			break;
+		}
+		case "-": {
+			this.qualUsar = 2;
+			this.qualOperador = "-";
+			break;
+		}
+		case "*": {
+			this.qualUsar = 2;
+			this.qualOperador = "*";
+			break;
+		}
+		case "/": {
+			this.qualUsar = 2;
+			this.qualOperador = "/";
+			break;
+		}
+		case "=": {
+			this.qualUsar = 1;
+			resposta();
+			break;
+		}
+		case "C": resetaCalculadora(); break;
 		default: break;
 		}
 	}
+	
+	private void imprimeStatus() {
+		System.out.println("V1:      "+this.Valor1);
+		System.out.println("V2 :     "+this.Valor2);
+		System.out.println("qualop : "+this.qualOperador);
+		System.out.println("qualusar:"+this.qualUsar);
+		//System.out.println("V1: "+this.Valor1);
+		//System.out.println("V1: "+this.Valor1);
+		//System.out.println("V1: "+this.Valor1);
+	}
+	
+	private void resetaCalculadora() {
+		this.Valor1 = "";
+		this.Valor2 = "";
+		this.qualOperador = "";
+		this.Resultado = "";
+		this.qualUsar = 1;
+		textField_Texto.setText("");
+		imprimeStatus();
+	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+	private void resposta() {
+		// EXECUTAR A OPERACAO
+		Float v1 = Float.parseFloat(this.Valor1);
+		Float v2 = Float.parseFloat(this.Valor2);
+		Float resultadoFinal = null;
 		
+		switch (this.qualOperador) {
+		case "+":
+			resultadoFinal = v1 + v2;
+			break;
+		case "-":
+			resultadoFinal = v1 - v2;
+			break;
+		case "/":
+			resultadoFinal = v1 / v2;
+			break;
+		case "*":
+			resultadoFinal = v1 * v2;
+			break;
+		default:
+			break;
+		}
+		
+		//exibe texto no display
+		textField_Texto.setText(resultadoFinal.toString());
+		
+		this.Valor1 = resultadoFinal.toString();
+		this.Valor2 = "";
+		this.qualOperador = "";
+		this.qualUsar = 2;
+		textField_Texto.setText(Valor1);
+		imprimeStatus();
+		return;
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		String key = String.valueOf(e.getKeyChar());
 		tratamentoTeclado(key);
-		
 	}
 }

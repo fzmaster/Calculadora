@@ -49,6 +49,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private JButton button_Igual;
 	private JButton button_Mais;
 	
+	private String Valor1 = "", Valor2 = "", Resultado = "";
+	private int qualUsar = 1;
+	private String qualOperador = "";
+	
 	private JMenu menu;
 	
 
@@ -110,7 +114,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		panel.add(panel_Excluir);
 		panel_Excluir.setLayout(null);
 		
-		button_Excluir = new JButton("Excluir");
+		button_Excluir = new JButton("C");
 		button_Excluir.setBounds(115, 0, 89, 30);
 		panel_Excluir.add(button_Excluir);
 		
@@ -202,33 +206,93 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "6":
 		case "7":
 		case "8":
-		case "9": textField_Texto.setText(textField_Texto.getText() + key); System.out.println("Dígito: " + key); break;
-		case ".":
-		case "+":
-		case "-":
-		case "*":
-		case "/": textField_Texto.setText(textField_Texto.getText() + key); break;
-		case "=": resposta(); System.out.println("Executar Resposta"); break;
+		case "9": {
+			textField_Texto.setText(textField_Texto.getText() + key); System.out.println("Dígito: " + key);
+			if(this.qualUsar == 1) {
+				//coloca no Valor1
+				this.Valor1 = this.Valor1+key;
+				System.out.println("Agora temos: " + this.Valor1);
+			} else {
+				//coloca no Valor2
+				this.Valor2 = this.Valor2+key;
+				
+			}
+			break;
+		}
+		case ".": {
+			// TODO:implementar o ponto
+			break;
+		}
+		case "+": {
+			this.qualUsar = 2;
+			this.qualOperador = "+";
+			break;
+		}
+		case "-": {
+			this.qualUsar = 2;
+			this.qualOperador = "-";
+			break;
+		}
+		case "*": {
+			this.qualUsar = 2;
+			this.qualOperador = "*";
+			break;
+		}
+		case "/": {
+			this.qualUsar = 2;
+			this.qualOperador = "/";
+			textField_Texto.setText(textField_Texto.getText() + key);
+			break;
+		}
+		case "=": {
+			this.qualUsar = 1;
+			resposta();
+			break;
+		}
+		case "C": resetaCalculadora(); break;
 		default: break;
 		}
 	}
 	
+	private void resetaCalculadora() {
+		this.Valor1 = null;
+		this.Valor2 = null;
+		this.qualOperador = "";
+		this.Resultado = "";
+	}
+
 	private void resposta() {
-		// TODO: CRIAR O ANALISADOR LEXICO, SINTATICO E SEMANTICO
-		System.out.println("EXECUTAR ANALISE E EXECUTAR OPERACAO");
+		// EXECUTAR A OPERACAO
+		Float v1 = Float.parseFloat(this.Valor1);
+		Float v2 = Float.parseFloat(this.Valor2);
+		Float resultadoFinal = null;
+		
+		switch (this.qualOperador) {
+		case "+":
+			resultadoFinal = v1 + v2;
+			System.out.println("v1 = " + v1);
+			System.out.println("v2 = " + v2);
+			System.out.println("resFinal" + resultadoFinal);
+			textField_Texto.setText(resultadoFinal.toString());
+			break;
+		default:
+			break;
+		}
+		
+		this.Valor1 = resultadoFinal.toString();
+		this.Valor2 = "";
+		this.qualOperador = "";
+		this.qualUsar = 2;
+		textField_Texto.setText(Valor1);
+		
 		return;
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void keyPressed(KeyEvent e) {}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e) {}
 
 	@Override
 	public void keyTyped(KeyEvent e) {

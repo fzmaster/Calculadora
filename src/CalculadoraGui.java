@@ -1,20 +1,29 @@
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
+
 import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.color.*;
 
-// C�digo fonte dispon�vel no endere�o: https://github.com/fzmaster/Calculadora
+// Código fonte disponível no endereço: https://github.com/fzmaster/Calculadora
 
 
 @SuppressWarnings("serial")
@@ -30,18 +39,22 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private JButton button_8;
 	private JButton button_9;
 	private JButton button_Div;
+	private JButton button_Neg;
 	private JButton button_4;
 	private JButton button_5;
 	private JButton button_6;
 	private JButton button_Mult;
+	private JButton button_Pot;
 	private JButton button_1;
 	private JButton button_2;
 	private JButton button_3;
 	private JButton button_Menos;
+	private JButton button_Rad;
 	private JButton button_Ponto;
 	private JButton button_0;
 	private JButton button_Igual;
 	private JButton button_Mais;
+	private JButton button_Log;
 	
 	private String Valor1 = "", Valor2 = "", Resultado = "";
 	private int qualUsar = 1;
@@ -79,8 +92,8 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 	private void initialize() {
 		frmCalculadora = new JFrame();
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setSize(new Dimension(300, 300));
-		frmCalculadora.setBounds(0, 0, 300, 300);
+		frmCalculadora.setSize(new Dimension(280, 300));
+		frmCalculadora.setBounds(0, 0, 260, 290);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.setLocationRelativeTo(null);
 		frmCalculadora.setResizable(false);
@@ -96,7 +109,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		
 		textField_Texto = new JTextField();
 		textField_Texto.addKeyListener(this);
-		textField_Texto.setBounds(0, 0, 204, 30);
+		textField_Texto.setBounds(0, 0, 254, 30);
 		panel.add(textField_Texto);
 		textField_Texto.setColumns(10);
 		textField_Texto.setEditable(false);
@@ -104,7 +117,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		
 		
 		panel_Excluir = new JPanel();
-		panel_Excluir.setBounds(0, 30, 204, 30);
+		panel_Excluir.setBounds(50, 30, 204, 30);
 		panel.add(panel_Excluir);
 		panel_Excluir.setLayout(null);
 		
@@ -114,7 +127,7 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Excluir.addActionListener(this);
 		
 		panel_Teclado = new JPanel();
-		panel_Teclado.setBounds(0, 60, 204, 202);
+		panel_Teclado.setBounds(0, 60, 254, 202);
 		panel.add(panel_Teclado);
 		panel_Teclado.setLayout(new GridLayout(4, 4, 0, 0));
 		
@@ -134,6 +147,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		panel_Teclado.add(button_Div);
 		button_Div.addActionListener(this);
 		
+		button_Neg = new JButton("N");
+		panel_Teclado.add(button_Neg);
+		button_Neg.addActionListener(this);
+		
 		button_4 = new JButton("4");
 		panel_Teclado.add(button_4);
 		button_4.addActionListener(this);
@@ -149,6 +166,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Mult = new JButton("*");
 		panel_Teclado.add(button_Mult);
 		button_Mult.addActionListener(this);
+		
+		button_Pot = new JButton("^");
+		panel_Teclado.add(button_Pot);
+		button_Pot.addActionListener(this);
 		
 		button_1 = new JButton("1");
 		panel_Teclado.add(button_1);
@@ -181,6 +202,14 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		button_Mais = new JButton("+");
 		panel_Teclado.add(button_Mais);
 		button_Mais.addActionListener(this);
+
+		button_Rad = new JButton("R");
+		panel_Teclado.add(button_Rad);
+		button_Rad.addActionListener(this);
+
+		button_Log = new JButton("L");
+		panel_Teclado.add(button_Log);
+		button_Log.addActionListener(this);
 	}
 
 	@Override
@@ -229,21 +258,43 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		case "+": {
 			this.qualUsar = 2;
 			this.qualOperador = "+";
+			textField_Texto.setText("");
 			break;
 		}
 		case "-": {
 			this.qualUsar = 2;
 			this.qualOperador = "-";
+			textField_Texto.setText("");
 			break;
 		}
 		case "*": {
 			this.qualUsar = 2;
 			this.qualOperador = "*";
+			textField_Texto.setText("");
 			break;
 		}
 		case "/": {
 			this.qualUsar = 2;
 			this.qualOperador = "/";
+			textField_Texto.setText("");
+			break;
+		}
+		case "^" : {
+			this.qualUsar = 2;
+			this.qualOperador = "^";
+			textField_Texto.setText("");
+			break;
+		}
+		case "R" : {
+			this.qualUsar = 2;
+			this.qualOperador = "R";
+			textField_Texto.setText("");
+			break;
+		}
+		case "L" : {
+			this.qualUsar = 2;
+			this.qualOperador = "L";
+			textField_Texto.setText("");
 			break;
 		}
 		case "=": {
@@ -251,6 +302,19 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 			resposta();
 			break;
 		}
+		case "N" : {
+			if(this.qualUsar == 1) {
+				//coloca no Valor1
+				if(this.Valor1.equals("")) {
+					JOptionPane.showMessageDialog(null, "Valor está vazio. Digite um número para negar!", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					this.Valor1 = "-" + this.Valor1;
+					textField_Texto.setText(this.Valor1);	
+				}
+			}
+			break;
+		}
+		
 		case "C": resetaCalculadora(); break;
 		default: break;
 		}
@@ -278,10 +342,10 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 
 	private void resposta() {
 		// EXECUTAR A OPERACAO
-		Float v1 = Float.parseFloat(this.Valor1);
-		Float v2 = Float.parseFloat(this.Valor2);
-		Float resultadoFinal = null;
-		
+		Double v1 = Double.parseDouble(this.Valor1);
+		Double v2 = Double.parseDouble(this.Valor2);
+		Double resultadoFinal = null;
+		imprimeStatus();
 		switch (this.qualOperador) {
 		case "+":
 			resultadoFinal = v1 + v2;
@@ -290,10 +354,23 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 			resultadoFinal = v1 - v2;
 			break;
 		case "/":
-			resultadoFinal = v1 / v2;
+			if(this.Valor2.equals("0")) {
+				JOptionPane.showMessageDialog(null, "Divisão por Zero Proibida. Use 0.0", "Erro!", JOptionPane.ERROR_MESSAGE);
+			} else {
+				resultadoFinal = v1 / v2;				
+			}	
 			break;
 		case "*":
 			resultadoFinal = v1 * v2;
+			break;
+		case "^":
+			resultadoFinal = (Double) Math.pow(v1, v2);
+			break;
+		case "R":
+			resultadoFinal = (Double) Math.pow(v1, 1.0/v2);
+			break;
+		case "L":
+			resultadoFinal = (Double) Math.log(v1)/Math.log(v2);
 			break;
 		default:
 			break;
@@ -303,6 +380,9 @@ public class CalculadoraGui extends JFrame implements KeyListener, ActionListene
 		textField_Texto.setText(resultadoFinal.toString());
 		
 		this.Valor1 = resultadoFinal.toString();
+		if(this.Valor1.equals("Infinity")) {
+			this.Valor1 = "";
+		}
 		this.Valor2 = "";
 		this.qualOperador = "";
 		this.qualUsar = 2;
